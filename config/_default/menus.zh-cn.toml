@@ -1,0 +1,14 @@
+[[main]]
+  name = "关于"
+  pageRef = "about"
+  weight = 10
+
+[[main]]
+  name = "博客"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  name = "项目"
+  pageRef = "projects"
+  weight = 30
