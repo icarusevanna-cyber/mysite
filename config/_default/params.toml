@@ -63,7 +63,6 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
   disableHeroImageFilter = false # only used when layout equals hero
 
 [article]
-  showWordCount = true
   showComments = true
   showDate = true
   showViews = false

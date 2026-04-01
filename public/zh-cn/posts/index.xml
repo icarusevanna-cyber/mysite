@@ -9,15 +9,15 @@
     <managingEditor>icarusevanna@gmail.com (南冠客)</managingEditor>
     <webMaster>icarusevanna@gmail.com (南冠客)</webMaster>
     <copyright>© 2026 南冠客</copyright>
-    <atom:link href="//localhost:1313/zh-cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/zh-cn/posts/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title></title>
+      <title>第一篇博客</title>
       <link>//localhost:1313/zh-cn/posts/my-first-post/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
       <author>icarusevanna@gmail.com (南冠客)</author>
       <guid>//localhost:1313/zh-cn/posts/my-first-post/</guid>
-      <description></description>
+      <description>网站上线了，记录一下</description>
       
     </item>
     
