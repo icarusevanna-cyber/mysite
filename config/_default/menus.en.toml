@@ -13,6 +13,10 @@
   pageRef = "projects"
   weight = 30
 
+[[main]]
+  name = "🎹 Piano"
+  url = "/piano.html"
+  weight = 50
 
 # -- Main Menu --
 # The main menu is displayed in the header at the top of the page.

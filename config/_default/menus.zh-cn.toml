@@ -12,3 +12,8 @@
   name = "项目"
   pageRef = "projects"
   weight = 30
+
+[[main]]
+  name = "🎹 钢琴时刻"
+  url = "/piano.html"
+  weight = 50
