@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Evening Breeze</title>
+    <link>//localhost:1313/projects/</link>
+    <description>Recent content in Projects on Evening Breeze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>icarusevanna@gmail.com (Evanna Zhu)</managingEditor>
+    <webMaster>icarusevanna@gmail.com (Evanna Zhu)</webMaster>
+    <copyright>© 2026 Evanna Zhu</copyright>
+    <lastBuildDate>Sun, 12 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Goodwill Impairment Pipeline</title>
+      <link>//localhost:1313/projects/goodwill-pipeline/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (Evanna Zhu)</author>
+      <guid>//localhost:1313/projects/goodwill-pipeline/</guid>
+      <description>Automated extraction from 3,617 annual reports.</description>
+      
+    </item>
+    
+    <item>
+      <title>Rental Hunter</title>
+      <link>//localhost:1313/projects/rental-hunter/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (Evanna Zhu)</author>
+      <guid>//localhost:1313/projects/rental-hunter/</guid>
+      <description>Anomaly detection on 40,000 Beijing rental listings.</description>
+      
+    </item>
+    
+  </channel>
+</rss>

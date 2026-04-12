@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on 晚风</title>
+    <link>//localhost:1313/zh-cn/projects/</link>
+    <description>Recent content in Projects on 晚风</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>icarusevanna@gmail.com (南冠客)</managingEditor>
+    <webMaster>icarusevanna@gmail.com (南冠客)</webMaster>
+    <copyright>© 2026 南冠客</copyright>
+    <lastBuildDate>Sun, 12 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/zh-cn/projects/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>藏在附注深处的炸弹</title>
+      <link>//localhost:1313/zh-cn/projects/goodwill-pipeline/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/projects/goodwill-pipeline/</guid>
+      <description>从 3,617 份 A 股年报 PDF 中自动提取商誉减值数据。五阶段 Pipeline：爬虫 → 清洗 → PDF 解析 → 正则分类 → 可视化分析。</description>
+      
+    </item>
+    
+    <item>
+      <title>租房猎人：谁动了我的房租？</title>
+      <link>//localhost:1313/zh-cn/projects/rental-hunter/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/projects/rental-hunter/</guid>
+      <description>北京 40,000 条真实房源中藏着 100 个被篡改的价格。GradientBoosting + 残差排序的异常检测，附交互小游戏。</description>
+      
+    </item>
+    
+  </channel>
+</rss>

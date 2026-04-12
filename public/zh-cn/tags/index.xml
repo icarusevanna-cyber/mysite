@@ -9,7 +9,67 @@
     <managingEditor>icarusevanna@gmail.com (南冠客)</managingEditor>
     <webMaster>icarusevanna@gmail.com (南冠客)</webMaster>
     <copyright>© 2026 南冠客</copyright>
-    <lastBuildDate>Wed, 01 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/zh-cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/zh-cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>GradientBoosting</title>
+      <link>//localhost:1313/zh-cn/tags/gradientboosting/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/gradientboosting/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>PDF解析</title>
+      <link>//localhost:1313/zh-cn/tags/pdf%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/pdf%E8%A7%A3%E6%9E%90/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>RPA</title>
+      <link>//localhost:1313/zh-cn/tags/rpa/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/rpa/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>机器学习</title>
+      <link>//localhost:1313/zh-cn/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>数据工程</title>
+      <link>//localhost:1313/zh-cn/tags/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>异常检测</title>
+      <link>//localhost:1313/zh-cn/tags/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/</link>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <author>icarusevanna@gmail.com (南冠客)</author>
+      <guid>//localhost:1313/zh-cn/tags/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>随笔</title>

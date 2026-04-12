@@ -4,7 +4,7 @@
 
   <url>
     <loc>//localhost:1313/</loc>
-    <lastmod>2026-04-01T00:00:00+00:00</lastmod>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
     <xhtml:link
@@ -16,6 +16,54 @@
       rel="alternate"
       hreflang="en"
       href="//localhost:1313/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/showcase/goodwill-pipeline/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/zh-cn/projects/goodwill-pipeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/showcase/goodwill-pipeline/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/projects/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/zh-cn/projects/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/projects/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/showcase/rental-hunter/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/zh-cn/projects/rental-hunter/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/showcase/rental-hunter/"
     />
   </url>
   <url>

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租房猎人：谁动了我的房租？</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --bg-warm: #f5f0ea;
+            --text: #2c2c2c;
+            --text-light: #6b6560;
+            --accent: #c4704b;
+            --accent-light: #e8a888;
+            --accent-pale: #fdf0ea;
+            --green: #4a8c6f;
+            --green-pale: #eaf5ef;
+            --red: #c45050;
+            --red-pale: #fceaea;
+            --blue: #4a6f8c;
+            --blue-pale: #eaf0f5;
+            --border: #e5ddd5;
+            --code-bg: #2b2b2b;
+            --code-text: #d4d4d4;
+            --card-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'LXGW WenKai', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.85;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--accent-light);
+            color: var(--text);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        section + section {
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: 100px 0 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(196,112,75,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 560px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-meta .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PROSE ===== */
+        .prose { font-size: 1.05rem; }
+
+        .prose p { margin-bottom: 1.4em; }
+
+        .prose h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 2em 0 0.8em;
+            padding-bottom: 0.4em;
+            border-bottom: 2px solid var(--accent-light);
+        }
+
+        .prose h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.6em 0 0.6em;
+            color: var(--accent);
+        }
+
+        .prose .highlight-box {
+            background: var(--accent-pale);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px;
+            margin: 1.5em 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .prose code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            background: var(--bg-warm);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .prose .aside {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            padding-left: 16px;
+            border-left: 2px solid var(--border);
+            margin: 1.2em 0;
+        }
+
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 1.5em 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block .lang-tag {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--code-text);
+            white-space: pre;
+            margin: 0;
+        }
+
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #c586c0; }
+        .code-block .string { color: #ce9178; }
+        .code-block .func { color: #dcdcaa; }
+        .code-block .num { color: #b5cea8; }
+        .code-block .var { color: #9cdcfe; }
+
+        /* ===== GAME SECTION ===== */
+        .game-section {
+            background: var(--bg-warm);
+            border-radius: 16px;
+            padding: 40px 32px;
+            margin: 2em 0;
+            border: 1px solid var(--border);
+        }
+
+        .game-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .game-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+
+        .game-progress {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .game-progress .pip {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            transition: background 0.3s;
+        }
+
+        .game-progress .pip.done-correct { background: var(--green); }
+        .game-progress .pip.done-wrong { background: var(--red); }
+        .game-progress .pip.current { background: var(--accent); }
+
+        .listing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .listing-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .listing-price-unit {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .listing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+            margin-top: 16px;
+        }
+
+        .listing-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            padding: 6px 0;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .listing-field .label { color: var(--text-light); }
+        .listing-field .value { font-weight: 500; }
+
+        .listing-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .listing-tags span {
+            font-size: 0.78rem;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: var(--bg);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .game-btn {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid;
+            border-radius: 10px;
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+        }
+
+        .game-btn.normal {
+            border-color: var(--green);
+            color: var(--green);
+        }
+        .game-btn.normal:hover {
+            background: var(--green);
+            color: white;
+        }
+
+        .game-btn.suspicious {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .game-btn.suspicious:hover {
+            background: var(--red);
+            color: white;
+        }
+
+        .game-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .game-feedback {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .game-feedback.correct {
+            background: var(--green-pale);
+            border: 1px solid var(--green);
+            color: #2d6b4a;
+        }
+
+        .game-feedback.wrong {
+            background: var(--red-pale);
+            border: 1px solid var(--red);
+            color: #8b3232;
+        }
+
+        .game-feedback .explain {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            opacity: 0.85;
+        }
+
+        .game-result {
+            text-align: center;
+            padding: 32px 20px;
+            display: none;
+        }
+
+        .game-result .score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .game-result .score-label {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .game-result .verdict {
+            font-size: 1.1rem;
+            margin-top: 12px;
+        }
+
+        .game-result .model-compare {
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+
+        .game-btn-restart {
+            margin-top: 20px;
+            padding: 12px 32px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .game-btn-restart:hover { opacity: 0.85; }
+
+        /* ===== PIPELINE VIZ ===== */
+        .pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 2em 0;
+        }
+
+        .pipeline-step {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .pipeline-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40px;
+            flex-shrink: 0;
+        }
+
+        .pipeline-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            background: white;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .pipeline-connector {
+            width: 2px;
+            flex: 1;
+            background: var(--border);
+            min-height: 20px;
+        }
+
+        .pipeline-step:last-child .pipeline-connector { display: none; }
+
+        .pipeline-content {
+            padding-bottom: 32px;
+            flex: 1;
+        }
+
+        .pipeline-content h4 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .pipeline-content p {
+            font-size: 0.92rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .pipeline-content .tech-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: var(--blue-pale);
+            color: var(--blue);
+            border-radius: 4px;
+            margin-top: 8px;
+            margin-right: 4px;
+        }
+
+        /* ===== FORMULA ===== */
+        .formula-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        .formula-box .formula {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin: 12px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .formula-box .note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 1.5em 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card .num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-card .label {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* ===== FOOTER ===== */
+        .project-footer {
+            text-align: center;
+            padding: 48px 0;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .project-footer .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+        }
+
+        .project-footer .tech-stack span {
+            padding: 4px 12px;
+            background: var(--bg-warm);
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .listing-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .game-section { padding: 28px 20px; }
+            .hero-meta { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-label">project / anomaly detection</div>
+        <h1>租房猎人<br><em>谁动了我的房租？</em></h1>
+        <p class="hero-sub">
+            北京 40,000 条真实房源，其中藏着 100 个被篡改的价格。
+            如果你是一个模型，你能找出几个？
+        </p>
+        <div class="hero-meta">
+            <span><span class="dot" style="background:var(--accent)"></span>机器学习</span>
+            <span><span class="dot" style="background:var(--green)"></span>异常检测</span>
+            <span><span class="dot" style="background:var(--blue)"></span>GradientBoosting</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHAPTER 1: THE PROBLEM ===== -->
+<section>
+    <div class="container prose">
+        <h2>第一章：那些不对劲的房子</h2>
+
+        <p>假设你在北京找房子。打开贝壳，刷到一条房源：朝阳区，两居室，68㎡，距地铁 500 米——月租 3,200 元。</p>
+
+        <p>便宜吗？周围类似条件的房子挂 5,500 起步。你心里嘀咕：是房东急租，还是信息有猫腻？</p>
+
+        <p>这个直觉，恰好是异常检测的核心思想：<strong>如果一个事物的"标价"和它"应该值多少"之间差距太大，就值得怀疑。</strong></p>
+
+        <div class="highlight-box">
+            <strong>任务设定</strong>：一份真实的北京租房数据集（40,000 条训练集），其中 测试集的 1,000 条房源里混入了 100 个被人为篡改了价格的"假房源"——有的虚减 10%~40%，有的虚增 10%~40%。找出它们。
+        </div>
+
+        <p>问题是——你不知道哪些被篡改了，也不知道篡改方向和幅度。你只有一堆房源的特征：面积、楼层、户型、区位、地铁距离，以及各种标签。</p>
+
+        <p>在看技术方案之前，先来试试你自己的直觉？</p>
+    </div>
+</section>
+
+<!-- ===== GAME ===== -->
+<section>
+    <div class="container">
+        <div class="game-section" id="game-area">
+            <div class="game-title">⚔ 租房猎人挑战</div>
+            <div class="game-subtitle">下面会展示 6 条北京房源信息。凭直觉判断：这条房源的租金是正常的，还是被动过手脚的？</div>
+
+            <div class="game-progress" id="game-progress"></div>
+
+            <div id="game-card"></div>
+            <div class="game-feedback" id="game-feedback"></div>
+
+            <div class="game-buttons" id="game-buttons">
+                <button class="game-btn normal" onclick="answer(false)">🏠 正常房源</button>
+                <button class="game-btn suspicious" onclick="answer(true)">🚨 有问题！</button>
+            </div>
+
+            <div class="game-result" id="game-result">
+                <div class="score-label">你的命中率</div>
+                <div class="score" id="game-score"></div>
+                <div class="verdict" id="game-verdict"></div>
+                <div class="model-compare" id="model-compare"></div>
+                <button class="game-btn-restart" onclick="restartGame()">再来一轮</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHAPTER 2: THE APPROACH ===== -->
+<section>
+    <div class="container prose">
+        <h2>第二章：给每个房子算一个"合理价"</h2>
+
+        <p>人的直觉能覆盖多少？6 条，也许 60 条。但 1,000 条房源——你需要一个系统方法。</p>
+
+        <p>核心假设很简单：</p>
+
+        <div class="highlight-box">
+            如果一个房源的真实租金可以被它的其他特征（面积、区位、楼层、户型……）较准确地预测，那么被篡改过价格的房源，<strong>其实际价格和模型预测的"合理价格"之间，会出现明显偏差。</strong>
+        </div>
+
+        <p>方法论只有一句话：训练一个租金预测器 → 用它算每个房源"应该值多少" → 实际价格偏离预测越大的，越可疑。</p>
+
+        <p>但魔鬼在细节里。</p>
+
+        <h3>特征工程：哪些信息决定了租金？</h3>
+
+        <p>原始数据有 30+ 个字段。经过筛选和组合，最终喂给模型的特征分三类：</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="num">16</div>
+                <div class="label">数值特征<br><small>面积、楼层、经纬度…</small></div>
+            </div>
+            <div class="stat-card">
+                <div class="num">4</div>
+                <div class="label">类别特征<br><small>区、整/合租、平台…</small></div>
+            </div>
+            <div class="stat-card">
+                <div class="num">5</div>
+                <div class="label">衍生特征<br><small>每卧面积、楼层比…</small></div>
+            </div>
+        </div>
+
+        <p class="aside">衍生特征是从原始字段计算出来的。比如 <code>area_per_bedroom = rent_area / bedroom_num</code>，捕捉的是"这个房子每间卧室有多大"——同样 80㎡，两居和四居的租金天差地别。</p>
+
+        <h3>为什么选 GradientBoosting？</h3>
+
+        <p>租金和特征之间的关系不是线性的。"朝阳区 + 大面积"的组合效应、"高楼层在老小区可能是缺点但在新楼盘是加分项"——这些非线性关系和交互效应，线性回归搞不定。</p>
+
+        <p>GradientBoosting 本质上是一棵棵决策树依次纠错叠加：第一棵树拟合数据，第二棵树拟合第一棵的残差，第三棵再拟合剩余残差……几百棵弱学习器叠起来，就能捕捉非常复杂的模式。</p>
+
+        <div class="code-block">
+            <span class="lang-tag">PYTHON</span>
+<pre><span class="keyword">from</span> <span class="var">sklearn.ensemble</span> <span class="keyword">import</span> <span class="var">GradientBoostingRegressor</span>
+<span class="keyword">import</span> <span class="var">numpy</span> <span class="keyword">as</span> <span class="var">np</span>
+
+<span class="comment"># 目标变量取对数——租金分布右偏，log变换后更接近正态</span>
+<span class="var">y_train</span> = np.<span class="func">log1p</span>(train[<span class="string">'rent_price_listing'</span>])
+
+<span class="var">model</span> = <span class="func">GradientBoostingRegressor</span>(
+    <span class="var">n_estimators</span>=<span class="num">500</span>,
+    <span class="var">max_depth</span>=<span class="num">5</span>,
+    <span class="var">learning_rate</span>=<span class="num">0.05</span>,
+    <span class="var">subsample</span>=<span class="num">0.8</span>
+)
+<span class="var">model</span>.<span class="func">fit</span>(<span class="var">X_train</span>, <span class="var">y_train</span>)</pre>
+        </div>
+
+        <p class="aside">为什么对租金取 <code>log(1 + price)</code>？因为北京租金从 1,500 到 50,000 跨度很大，直接拟合的话模型会被高价房源主导。对数变换把尺度拉平，让模型同时关心便宜房源和贵房源的偏差。</p>
+    </div>
+</section>
+
+<!-- ===== CHAPTER 3: THE RESIDUAL ===== -->
+<section>
+    <div class="container prose">
+        <h2>第三章：残差——偏离就是证据</h2>
+
+        <p>模型训练完成后，对测试集的每条房源预测一个"合理价格"。然后算一个简单的东西——<strong>相对残差</strong>：</p>
+
+        <div class="formula-box">
+            <div class="formula">residual = (实际价格 − 预测价格) / 预测价格</div>
+            <div class="note">正值意味着实际贵于预期（可能虚增），负值意味着便宜于预期（可能虚减）</div>
+        </div>
+
+        <p>为什么用"相对"而不是"绝对"残差？因为一套月租 20,000 的房子偏差 2,000 元和一套月租 3,000 的房子偏差 2,000 元，严重程度完全不同。</p>
+
+        <p>把所有房源按残差排序——最负的那些，最可能是被虚减的；最正的那些，最可能是被虚增的。</p>
+
+        <div class="code-block">
+            <span class="lang-tag">PYTHON</span>
+<pre><span class="comment"># 预测 → 还原 → 算相对残差</span>
+<span class="var">pred_log</span> = <span class="var">model</span>.<span class="func">predict</span>(<span class="var">X_test</span>)
+<span class="var">pred_price</span> = np.<span class="func">expm1</span>(<span class="var">pred_log</span>)
+
+<span class="var">residual</span> = (<span class="var">actual_price</span> - <span class="var">pred_price</span>) / <span class="var">pred_price</span>
+
+<span class="comment"># 虚减任务：残差最负的 top-N 最可疑</span>
+<span class="var">suspects_down</span> = <span class="var">residual</span>.<span class="func">nsmallest</span>(<span class="num">120</span>).index
+
+<span class="comment"># 虚增任务：残差最正的 top-N 最可疑</span>
+<span class="var">suspects_up</span> = <span class="var">residual</span>.<span class="func">nlargest</span>(<span class="num">120</span>).index</pre>
+        </div>
+
+        <h3>提交 100 还是 120？精度与召回的博弈</h3>
+
+        <p>真实异常有 100 个。如果我提交恰好 100 个 house_id，命中率上限就被锁死了——排在第 101~120 名的可能还有真异常，但永远不会被捞到。</p>
+
+        <p>多提交 20 个会怎样？精度会略降（分母变大），但召回可能显著提升（多捞回了一些排在 100 名之外的真异常）。</p>
+
+        <p>评价指标是 <code>TPR − FPR</code>。数学上可以证明：只要第 101~120 名的命中率还高于基础异常率（100/1000 = 10%），扩大提交范围就是赚的。而模型排序后这个区间的命中率远超 10%——所以 120 优于 100。</p>
+
+        <div class="aside">
+            这就是异常检测中典型的 precision-recall tradeoff。不同评价指标对"扩大范围"的容忍度不同：TPR−FPR 鼓励你"宁可多报"，F1 要求你"报得准"。选择多少取决于你被什么指标考核。
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHAPTER 4: PIPELINE ===== -->
+<section>
+    <div class="container prose">
+        <h2>第四章：完整流程</h2>
+
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>数据探索与清洗</h4>
+                    <p>40,000 条训练集 + 1,000 条测试集。处理缺失值、异常编码，检查数据分布。发现租金高度右偏——决定后续用对数变换。</p>
+                    <span class="tech-tag">pandas</span><span class="tech-tag">EDA</span>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>特征工程</h4>
+                    <p>从 30+ 原始字段中选取 16 个数值特征、4 个类别特征（LabelEncoder），并构造 5 个衍生特征：每卧面积、总房间数、楼层比、经纬度交互项、商圈 ID。</p>
+                    <span class="tech-tag">sklearn</span><span class="tech-tag">LabelEncoder</span>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>模型训练</h4>
+                    <p>GradientBoosting Regressor，500 棵树，max_depth=5，learning_rate=0.05，subsample=0.8。目标变量 log(1 + rent_price)。</p>
+                    <span class="tech-tag">GBR</span><span class="tech-tag">log transform</span>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>残差排序与异常判定</h4>
+                    <p>计算相对残差，按偏差程度排序。虚减任务取最负的 top-120，虚增任务取最正的 top-120。</p>
+                    <span class="tech-tag">relative residual</span>
+                </div>
+            </div>
+
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>评估与策略调整</h4>
+                    <p>分析 TPR−FPR 在不同提交数量下的表现，验证 120 > 100 的策略优势。最终结果成功识别了大部分异常房源。</p>
+                    <span class="tech-tag">TPR−FPR</span><span class="tech-tag">precision-recall</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHAPTER 5: REFLECTION ===== -->
+<section>
+    <div class="container prose">
+        <h2>第五章：复盘</h2>
+
+        <p>这个项目在技术上并不复杂——一个 GBR 模型，一个残差排序，核心代码不超过 50 行。但它让我理解了几件事：</p>
+
+        <p><strong>选择评价指标比优化模型更重要。</strong> 同一个模型，在 F1 和 TPR−FPR 下的最优提交策略完全不同。在真实业务中，"我在优化什么"永远是第一个要回答的问题。</p>
+
+        <p><strong>特征工程是性价比最高的事。</strong> 花 30 分钟构造 <code>area_per_bedroom</code> 和 <code>floor_ratio</code>，效果超过花 2 小时调超参。模型能学多好，上限由数据决定。</p>
+
+        <p><strong>log 变换不是技巧，是对数据分布的尊重。</strong> 不理解数据的分布形态就建模，模型会悄悄地偏向某类样本而你毫无知觉。</p>
+
+        <div class="aside">如果有更多时间，可以尝试 LightGBM + GBR 的集成、加入小区名均价统计特征、或者用 Isolation Forest 做对比实验。但在课堂竞赛的投入产出比考量下，这些留给下次了。</div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="project-footer">
+    <div class="container">
+        <div>课堂竞赛项目 · 2026 春</div>
+        <div class="tech-stack">
+            <span>Python</span>
+            <span>pandas</span>
+            <span>scikit-learn</span>
+            <span>GradientBoosting</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ===== GAME DATA =====
+// Realistic Beijing rental data, some with manipulated prices
+const listings = [
+    {
+        price: 3200, district: "朝阳区", area: 68, bedrooms: 2, halls: 1,
+        floor: "12/28层", subway: "430m", rentType: "整租",
+        tags: ["近地铁", "精装修", "独立阳台"],
+        isAnomaly: true,
+        fairPrice: 5600,
+        explain: "朝阳区 68㎡ 两居，距地铁 430m，模型预测合理租金约 5,600 元。实际标价仅 3,200，偏离 -43%——远超正常波动范围。"
+    },
+    {
+        price: 7800, district: "海淀区", area: 55, bedrooms: 2, halls: 1,
+        floor: "6/18层", subway: "650m", rentType: "整租",
+        tags: ["近地铁", "集中供暖"],
+        isAnomaly: false,
+        fairPrice: 7500,
+        explain: "海淀 55㎡ 两居，距地铁 650m。模型预测约 7,500 元，实际 7,800 元，偏差仅 +4%，在正常范围内。"
+    },
+    {
+        price: 15800, district: "西城区", area: 42, bedrooms: 1, halls: 1,
+        floor: "8/11层", subway: "200m", rentType: "整租",
+        tags: ["近地铁", "精装修", "随时看房"],
+        isAnomaly: true,
+        fairPrice: 9800,
+        explain: "西城 42㎡ 一居，虽然地段好、离地铁近，但模型综合面积和户型预测约 9,800 元。标价 15,800 元偏离 +61%，虚增明显。"
+    },
+    {
+        price: 4200, district: "丰台区", area: 75, bedrooms: 3, halls: 1,
+        floor: "3/6层", subway: "1200m", rentType: "整租",
+        tags: ["集中供暖", "南北通透"],
+        isAnomaly: false,
+        fairPrice: 4400,
+        explain: "丰台 75㎡ 三居，低楼层老小区，离地铁超过 1km。模型预测约 4,400 元，实际 4,200 只差 -5%，完全正常。"
+    },
+    {
+        price: 2100, district: "通州区", area: 50, bedrooms: 2, halls: 1,
+        floor: "15/22层", subway: "800m", rentType: "整租",
+        tags: ["近地铁", "精装修", "押一付一"],
+        isAnomaly: true,
+        fairPrice: 3800,
+        explain: "通州 50㎡ 两居精装修，距地铁 800m，条件不错。模型预测合理价约 3,800 元，实际仅 2,100 元——偏离 -45%，明显低于市场水平。"
+    },
+    {
+        price: 6300, district: "朝阳区", area: 40, bedrooms: 1, halls: 1,
+        floor: "20/32层", subway: "350m", rentType: "整租",
+        tags: ["近地铁", "精装修", "独立阳台", "随时看房"],
+        isAnomaly: false,
+        fairPrice: 6100,
+        explain: "朝阳高层 40㎡ 一居，地铁 350m，精装修。模型预测约 6,100 元，实际 6,300 偏差 +3%，属于正常定价。"
+    }
+];
+
+let currentIndex = 0;
+let score = 0;
+let answers = [];
+let shuffledListings = [];
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function initGame() {
+    shuffledListings = shuffle(listings);
+    currentIndex = 0;
+    score = 0;
+    answers = [];
+
+    const prog = document.getElementById('game-progress');
+    prog.innerHTML = shuffledListings.map((_, i) => `<div class="pip" id="pip-${i}"></div>`).join('');
+
+    document.getElementById('game-buttons').style.display = 'flex';
+    document.getElementById('game-result').style.display = 'none';
+    document.getElementById('game-feedback').style.display = 'none';
+
+    showListing(0);
+}
+
+function showListing(idx) {
+    const l = shuffledListings[idx];
+    document.getElementById('pip-' + idx).classList.add('current');
+
+    const card = document.getElementById('game-card');
+    card.innerHTML = `
+        <div class="listing-card">
+            <div class="listing-price">¥${l.price.toLocaleString()} <span class="listing-price-unit">/ 月</span></div>
+            <div class="listing-grid">
+                <div class="listing-field"><span class="label">区域</span><span class="value">${l.district}</span></div>
+                <div class="listing-field"><span class="label">面积</span><span class="value">${l.area}㎡</span></div>
+                <div class="listing-field"><span class="label">户型</span><span class="value">${l.bedrooms}室${l.halls}厅</span></div>
+                <div class="listing-field"><span class="label">楼层</span><span class="value">${l.floor}</span></div>
+                <div class="listing-field"><span class="label">最近地铁</span><span class="value">${l.subway}</span></div>
+                <div class="listing-field"><span class="label">租赁方式</span><span class="value">${l.rentType}</span></div>
+            </div>
+            <div class="listing-tags">${l.tags.map(t => `<span>${t}</span>`).join('')}</div>
+        </div>
+    `;
+
+    // re-enable buttons
+    document.querySelectorAll('.game-btn').forEach(b => b.disabled = false);
+    document.getElementById('game-feedback').style.display = 'none';
+}
+
+function answer(guessAnomaly) {
+    const l = shuffledListings[currentIndex];
+    const correct = guessAnomaly === l.isAnomaly;
+
+    if (correct) score++;
+    answers.push(correct);
+
+    // update pip
+    const pip = document.getElementById('pip-' + currentIndex);
+    pip.classList.remove('current');
+    pip.classList.add(correct ? 'done-correct' : 'done-wrong');
+
+    // show feedback
+    const fb = document.getElementById('game-feedback');
+    fb.className = 'game-feedback ' + (correct ? 'correct' : 'wrong');
+    fb.innerHTML = `
+        <strong>${correct ? '✓ 判断正确！' : '✗ 判断失误'}</strong>
+        <div class="explain">${l.explain}</div>
+    `;
+    fb.style.display = 'block';
+
+    // disable buttons
+    document.querySelectorAll('.game-btn').forEach(b => b.disabled = true);
+
+    // next after delay
+    setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < shuffledListings.length) {
+            showListing(currentIndex);
+        } else {
+            showResult();
+        }
+    }, 2800);
+}
+
+function showResult() {
+    document.getElementById('game-buttons').style.display = 'none';
+    document.getElementById('game-feedback').style.display = 'none';
+    document.getElementById('game-card').innerHTML = '';
+
+    const pct = Math.round((score / shuffledListings.length) * 100);
+    document.getElementById('game-score').textContent = pct + '%';
+
+    const verdicts = [
+        [100, "完美。你可以不用训练模型了。"],
+        [83, "很强的直觉，比随机猜好太多了。"],
+        [66, "不错——但 6 条就是人类的极限了。想象 1,000 条呢？"],
+        [50, "一半一半……说明这个任务没有表面看起来那么容易。"],
+        [0, "没关系，这说明我们确实需要机器来帮忙。"]
+    ];
+
+    const v = verdicts.find(v => pct >= v[0]);
+    document.getElementById('game-verdict').textContent = v[1];
+
+    const anomalyCount = shuffledListings.filter(l => l.isAnomaly).length;
+    document.getElementById('model-compare').innerHTML = `
+        <strong>模型的表现</strong>：在 1,000 条房源中，GradientBoosting + 残差排序方法成功识别了大部分被篡改的房源。
+        人眼看 6 条需要仔细比对，看 1,000 条就不可能了——而模型只需要几秒钟。
+    `;
+
+    document.getElementById('game-result').style.display = 'block';
+}
+
+function restartGame() { initGame(); }
+
+// Start
+initGame();
+</script>
+
+</body>
+</html>

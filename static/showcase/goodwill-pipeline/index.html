@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藏在附注深处的炸弹</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --bg-warm: #f5f0ea;
+            --text: #2c2c2c;
+            --text-light: #6b6560;
+            --accent: #c4704b;
+            --accent-light: #e8a888;
+            --accent-pale: #fdf0ea;
+            --green: #4a8c6f;
+            --green-pale: #eaf5ef;
+            --red: #c45050;
+            --red-pale: #fceaea;
+            --blue: #4a6f8c;
+            --blue-pale: #eaf0f5;
+            --border: #e5ddd5;
+            --code-bg: #2b2b2b;
+            --code-text: #d4d4d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'LXGW WenKai', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.85;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: var(--accent-light); color: var(--text); }
+
+        .container { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 60px 0; }
+        section + section { border-top: 1px solid var(--border); }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 65vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(196,80,80,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+        .hero h1 em { font-style: normal; color: var(--accent); }
+        .hero-sub {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            max-width: 580px;
+            opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+        .hero-meta {
+            display: flex; gap: 24px; margin-top: 40px;
+            font-size: 0.85rem; color: var(--text-light);
+            opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .hero-meta .dot {
+            width: 6px; height: 6px; border-radius: 50%; display: inline-block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PROSE ===== */
+        .prose { font-size: 1.02rem; }
+        .prose p { margin-bottom: 1.4em; }
+        .prose h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem; font-weight: 700;
+            margin: 2em 0 0.8em;
+            padding-bottom: 0.4em;
+            border-bottom: 2px solid var(--accent-light);
+        }
+        .prose h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.15rem; font-weight: 600;
+            margin: 1.6em 0 0.6em;
+            color: var(--accent);
+        }
+        .prose .highlight-box {
+            background: var(--accent-pale);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px; margin: 1.5em 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+        .prose .highlight-blue {
+            background: var(--blue-pale);
+            border-left: 3px solid var(--blue);
+            padding: 16px 20px; margin: 1.5em 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+        .prose code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.86em;
+            background: var(--bg-warm);
+            padding: 2px 6px; border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        .prose .aside {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            padding-left: 16px;
+            border-left: 2px solid var(--border);
+            margin: 1.2em 0;
+        }
+
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 1.5em 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block .lang-tag {
+            position: absolute; top: 10px; right: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: #666; letter-spacing: 1px;
+        }
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83rem; line-height: 1.6;
+            color: var(--code-text); white-space: pre; margin: 0;
+        }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #c586c0; }
+        .code-block .string { color: #ce9178; }
+        .code-block .func { color: #dcdcaa; }
+        .code-block .num { color: #b5cea8; }
+        .code-block .var { color: #9cdcfe; }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 14px; margin: 1.5em 0;
+        }
+        .stat-card {
+            background: white; border: 1px solid var(--border);
+            border-radius: 10px; padding: 20px 12px; text-align: center;
+        }
+        .stat-card .num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem; font-weight: 700; color: var(--accent);
+        }
+        .stat-card .label {
+            font-size: 0.78rem; color: var(--text-light); margin-top: 4px;
+        }
+
+        /* ===== PIPELINE ===== */
+        .pipeline { display: flex; flex-direction: column; gap: 0; margin: 2em 0; }
+        .pipeline-step { display: flex; gap: 20px; align-items: stretch; }
+        .pipeline-line {
+            display: flex; flex-direction: column; align-items: center;
+            width: 40px; flex-shrink: 0;
+        }
+        .pipeline-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 3px solid var(--accent); background: white;
+            flex-shrink: 0; margin-top: 4px;
+        }
+        .pipeline-connector {
+            width: 2px; flex: 1; background: var(--border); min-height: 20px;
+        }
+        .pipeline-step:last-child .pipeline-connector { display: none; }
+        .pipeline-content { padding-bottom: 28px; flex: 1; }
+        .pipeline-content h4 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.02rem; font-weight: 600; margin-bottom: 6px;
+        }
+        .pipeline-content p {
+            font-size: 0.9rem; color: var(--text-light); line-height: 1.7;
+        }
+        .tech-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.73rem; padding: 2px 8px;
+            background: var(--blue-pale); color: var(--blue);
+            border-radius: 4px; margin-top: 8px; margin-right: 4px;
+        }
+
+        /* ===== BAR CHART ===== */
+        .bar-chart { margin: 1.5em 0; }
+        .bar-row { display: flex; align-items: center; gap: 12px; margin: 6px 0; }
+        .bar-label {
+            width: 100px; font-size: 0.85rem;
+            text-align: right; color: var(--text-light); flex-shrink: 0;
+        }
+        .bar-track {
+            flex: 1; height: 22px;
+            background: var(--bg-warm); border-radius: 4px; overflow: hidden;
+        }
+        .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+        .bar-value {
+            width: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem; color: var(--text-light);
+        }
+
+        /* ===== DATA TABLE ===== */
+        .data-table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.86rem; }
+        .data-table th {
+            text-align: left; padding: 10px 12px;
+            background: var(--bg-warm);
+            border-bottom: 2px solid var(--border);
+            font-weight: 600; font-size: 0.8rem; color: var(--text-light);
+        }
+        .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+        .data-table .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .data-table .num { font-family: 'JetBrains Mono', monospace; text-align: right; }
+        .data-table .neg { color: var(--red); }
+
+        /* ===== BADGE ===== */
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83rem; font-weight: 600;
+        }
+        .badge-green { background: var(--green-pale); color: var(--green); }
+        .badge-red { background: var(--red-pale); color: var(--red); }
+        .badge-gray { background: var(--bg-warm); color: var(--text-light); border: 1px solid var(--border); }
+
+        /* ===== NOISE VIZ ===== */
+        .noise-viz {
+            display: flex; height: 32px; border-radius: 6px;
+            overflow: hidden; margin: 1em 0; border: 1px solid var(--border);
+        }
+        .noise-viz .signal { background: var(--green); }
+        .noise-viz .noise { background: #ddd; }
+        .noise-legend {
+            display: flex; gap: 20px; font-size: 0.82rem;
+            color: var(--text-light); margin-top: 6px;
+        }
+        .noise-legend span::before {
+            content: ''; display: inline-block;
+            width: 10px; height: 10px; border-radius: 2px;
+            margin-right: 5px; vertical-align: middle;
+        }
+        .noise-legend .sig::before { background: var(--green); }
+        .noise-legend .noi::before { background: #ddd; }
+
+        /* ===== COLLAPSIBLE ===== */
+        details { margin: 16px 0; }
+        summary {
+            cursor: pointer; font-weight: 600; font-size: 0.92rem;
+            color: var(--accent); padding: 10px 14px;
+            background: var(--bg-warm); border-radius: 8px;
+            border: 1px solid var(--border); list-style: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸ '; }
+        details[open] summary::before { content: '▾ '; }
+        .detail-content {
+            padding: 14px 18px; border: 1px solid var(--border);
+            border-top: none; border-radius: 0 0 8px 8px;
+            background: white; font-size: 0.88rem;
+        }
+        .detail-content p { margin-bottom: 0.8em; color: var(--text-light); }
+
+        /* ===== FOOTER ===== */
+        .project-footer {
+            text-align: center; padding: 48px 0;
+            color: var(--text-light); font-size: 0.85rem;
+        }
+        .project-footer .tech-stack {
+            display: flex; justify-content: center; flex-wrap: wrap;
+            gap: 10px; margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+        }
+        .project-footer .tech-stack span {
+            padding: 4px 12px; background: var(--bg-warm);
+            border-radius: 100px; border: 1px solid var(--border);
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .data-table { font-size: 0.76rem; }
+            .data-table th, .data-table td { padding: 6px 8px; }
+            .bar-label { width: 80px; font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-label">project / financial data pipeline</div>
+        <h1>藏在附注深处的<em>炸弹</em></h1>
+        <p class="hero-sub">
+            3,617 份年报，63,000 次关键词命中，922 笔商誉减值。
+            从非结构化的 PDF 附注里，把 A 股的"并购后遗症"挖出来。
+        </p>
+        <div class="hero-meta">
+            <span><span class="dot" style="background:var(--accent)"></span>RPA + NLP</span>
+            <span><span class="dot" style="background:var(--green)"></span>PDF 解析</span>
+            <span><span class="dot" style="background:var(--blue)"></span>正则分类器</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CH1: WHY ===== -->
+<section>
+    <div class="container prose">
+        <h2>第一章：并购潮退去之后</h2>
+
+        <p>2015-2017 年，A 股经历了一轮空前的并购浪潮。上市公司以高溢价收购资产，账面上形成了大量"商誉"——本质上是"为这笔收购多付的钱"。</p>
+
+        <p>当被收购公司业绩达不到预期，这些商誉就需要"减值"——直接从利润里扣除，有时一笔减值就能吞掉全年利润。2018-2019 年 A 股集中爆发了商誉减值潮，一些公司一夜亏损数十亿。</p>
+
+        <p>几年过去了，减值压力消退了吗？哪些公司还在持续"消化"当年的并购遗产？它们的减值测试假设是否合理？</p>
+
+        <div class="highlight-box">
+            <strong>目标：</strong>从 3,617 份 2023 年度年报中，自动化提取商誉变动数据、减值金额和 DCF 测试参数——这些信息全部藏在年报附注的非结构化文本里，人工翻阅几乎不可能。
+        </div>
+    </div>
+</section>
+
+<!-- ===== CH2: CHALLENGE ===== -->
+<section>
+    <div class="container prose">
+        <h2>第二章：为什么这件事很难</h2>
+
+        <p>商誉信息不在年报的标准化字段里。它散落在 PDF 附注的第 80 页、第 127 页，混杂在其他减值测试、会计政策描述和资产负债表行项之间。</p>
+
+        <p>每家公司的年报格式不同——表格结构、附注编号、金额单位（元/万元/百万元）都可能不一样。有的公司年报是扫描版（纯图片），连文字都提取不出来。</p>
+
+        <p>更棘手的是噪声。搜索"商誉"这个关键词，几乎每份年报都会命中——但绝大部分命中是资产负债表里的一行科目名，或者会计政策模板里的标准化描述。真正有分析价值的段落（变动表、减值测试参数、减值金额）只占一小部分。</p>
+
+        <p class="aside">这意味着：你不仅需要"找到提到商誉的地方"，还需要"判断这个提及是否有信息量"。前者是搜索问题，后者是分类问题。</p>
+    </div>
+</section>
+
+<!-- ===== CH3: PIPELINE ===== -->
+<section>
+    <div class="container prose">
+        <h2>第三章：五阶段 Pipeline</h2>
+
+        <p>整个系统分五个阶段，每个阶段的输出都是独立文件，中断后可从任意阶段恢复。</p>
+
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>阶段 1 · 数据采集</h4>
+                    <p>从巨潮资讯网 API 按日期分批爬取年报索引（深交所 + 上交所），模拟浏览器行为，礼貌延迟 + 指数退避重试。UA 轮换防封，会话预热拿 Cookie。总计获取 7,671 条公告记录。</p>
+                    <span class="tech-tag">requests</span><span class="tech-tag">JSONL</span><span class="tech-tag">断点续传</span>
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>阶段 2 · 数据清洗</h4>
+                    <p>多维度筛选：去 B 股、去摘要/英文版/修订版，按股票代码保留最新一份年报。7,671 → 3,617 家上市公司。</p>
+                    <span class="tech-tag">pandas</span><span class="tech-tag">regex</span>
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>阶段 3 · PDF 解析</h4>
+                    <p>使用 PyMuPDF 进行结构感知的文本提取。核心设计：基于 y 坐标聚类（3px 容差）重建表格行结构，而非将 PDF 视为纯文本流。跳过前 35 页（目录），按关键词搜索附注段落，提取前 3 行 + 本行 + 后 25 行上下文。</p>
+                    <span class="tech-tag">PyMuPDF</span><span class="tech-tag">坐标聚类</span><span class="tech-tag">上下文窗口</span>
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>阶段 4 · 智能分类与结构化提取</h4>
+                    <p>正则分类器将 63,437 次原始命中分为五类（见下文），过滤低价值噪声，从高价值段落中提取结构化字段：商誉金额、减值损失、折现率、增长率、被投资方名称。</p>
+                    <span class="tech-tag">regex classifier</span><span class="tech-tag">JSON</span>
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <div class="pipeline-line"><div class="pipeline-dot"></div><div class="pipeline-connector"></div></div>
+                <div class="pipeline-content">
+                    <h4>阶段 5 · 分析与可视化</h4>
+                    <p>汇总结构化数据，计算减值发生率、折现率分布，识别潜在风险公司，生成 HTML 分析报告。</p>
+                    <span class="tech-tag">统计分析</span><span class="tech-tag">HTML报告</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>为什么不直接用 LLM？</h3>
+
+        <p>3,617 份年报、每份几百页——全部送进 LLM 的成本和延迟都不可接受。而且这个任务的核心不是"理解语义"（每份年报的表述其实高度模板化），而是"在海量文档中精确定位并提取结构化数据"。传统正则在这里比 LLM 更快、更可控、更可调试。</p>
+
+        <p class="aside">当然，对于更复杂的提取任务（比如从自由文本中理解减值测试的推理逻辑），LLM 的优势就体现出来了。这个 pipeline 的设计是"传统方法能解决的交给正则，LLM 留给真正需要语义理解的环节"。</p>
+    </div>
+</section>
+
+<!-- ===== CH4: SIGNAL & NOISE ===== -->
+<section>
+    <div class="container prose">
+        <h2>第四章：信号与噪声</h2>
+
+        <p>搜索"商誉"和"减值测试"两个关键词，在 3,617 份年报中产生了 <strong>63,437 次</strong>原始命中。但并非每次命中都有信息量——事实上，大部分命中是噪声。</p>
+
+        <div class="noise-viz">
+            <div class="signal" style="width:62%"></div>
+            <div class="noise" style="width:38%"></div>
+        </div>
+        <div class="noise-legend">
+            <span class="sig">有效信号 39,020 (62%)</span>
+            <span class="noi">噪声 24,417 (38%)</span>
+        </div>
+
+        <p>分类器将每次命中归入五类：</p>
+
+        <div class="bar-chart">
+            <div class="bar-row">
+                <span class="bar-label">商誉变动表 ★</span>
+                <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div>
+                <span class="bar-value">26,203</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">会计政策</span>
+                <div class="bar-track"><div class="bar-fill" style="width:63%;background:#ccc"></div></div>
+                <span class="bar-value">16,497</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">减值测试 ★</span>
+                <div class="bar-track"><div class="bar-fill" style="width:44%;background:var(--accent)"></div></div>
+                <span class="bar-value">11,554</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">资产负债表</span>
+                <div class="bar-track"><div class="bar-fill" style="width:30%;background:#ccc"></div></div>
+                <span class="bar-value">7,920</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">减值金额 ★</span>
+                <div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--red)"></div></div>
+                <span class="bar-value">1,263</span>
+            </div>
+        </div>
+
+        <p>★ 标记的三类是高价值命中。"资产负债表"是年报里列出的那行科目名（`商誉  5,408,770,448.41`），几乎每家公司都有，但不含任何分析信息。"会计政策"是附注里关于商誉确认方法的模板文字，各公司大同小异。</p>
+
+        <details>
+            <summary>分类器是怎么工作的？</summary>
+            <div class="detail-content">
+                <p>五类命中各有不同的文本特征，用正则匹配来判断。比如资产负债表行项的典型特征是"商誉"后紧跟制表符和数字（<code>商誉\t19\t5,408...</code>），或者上下文包含"非流动资产合计"。</p>
+                <p>分类器的优先级是：减值金额 > 减值测试 > 变动表 > 会计政策 > 资产负债表。这样即使一段文本同时匹配多个类别，也会被归入信息量最高的那个。</p>
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- ===== CH5: TECH SPOTLIGHT ===== -->
+<section>
+    <div class="container prose">
+        <h2>第五章：两个关键技术决策</h2>
+
+        <h3>表格结构保持：坐标聚类</h3>
+
+        <p>PDF 里的表格不是"表格"——它们只是一堆浮在页面上的文本块，每个块有自己的 (x, y) 坐标。直接提取文本会丢失所有表格结构，商誉变动表会变成一串无法解析的数字流。</p>
+
+        <div class="code-block">
+            <span class="lang-tag">PYTHON</span>
+<pre><span class="comment"># 核心思想: 同一行的文本块，y 坐标应该接近</span>
+<span class="comment"># 按 y 聚类 (3px 容差) → 行内按 x 排序 → 制表符连接</span>
+
+<span class="var">spans</span>.<span class="func">sort</span>(<span class="var">key</span>=<span class="keyword">lambda</span> <span class="var">s</span>: (<span class="var">s</span>[<span class="string">"y"</span>], <span class="var">s</span>[<span class="string">"x"</span>]))
+
+<span class="keyword">for</span> <span class="var">span</span> <span class="keyword">in</span> <span class="var">spans</span>[<span class="num">1</span>:]:
+    <span class="keyword">if</span> <span class="func">abs</span>(<span class="var">span</span>[<span class="string">"y"</span>] - <span class="var">current_cluster</span>[-<span class="num">1</span>][<span class="string">"y"</span>]) <= <span class="num">3.0</span>:
+        <span class="var">current_cluster</span>.<span class="func">append</span>(<span class="var">span</span>)  <span class="comment"># 同一行</span>
+    <span class="keyword">else</span>:
+        <span class="var">current_cluster</span>.<span class="func">sort</span>(<span class="var">key</span>=<span class="keyword">lambda</span> <span class="var">s</span>: <span class="var">s</span>[<span class="string">"x"</span>])
+        <span class="var">row</span> = <span class="string">"\t"</span>.<span class="func">join</span>(<span class="var">s</span>[<span class="string">"text"</span>] <span class="keyword">for</span> <span class="var">s</span> <span class="keyword">in</span> <span class="var">current_cluster</span>)
+        <span class="var">rows</span>.<span class="func">append</span>(<span class="var">row</span>)  <span class="comment"># 换行</span></pre>
+        </div>
+
+        <p>这个方法的好处是对格式差异有一定容忍度——只要同一行的文本 y 坐标差距在 3px 以内，就能正确聚合。</p>
+
+        <h3>上下文窗口：前 3 + 后 25 行</h3>
+
+        <p>关键词命中只告诉你"第 247 行有'商誉'"。但减值金额可能在第 250 行，被投资方名称可能在第 248 行。不对称的上下文窗口（前 3 行 + 后 25 行）是经验调参的结果：商誉变动表通常在关键词之后展开，所以向下多取。</p>
+    </div>
+</section>
+
+<!-- ===== CH6: FINDINGS ===== -->
+<section>
+    <div class="container prose">
+        <h2>第六章：发现了什么</h2>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="num">1,518</div>
+                <div class="label">提取到商誉数据</div>
+            </div>
+            <div class="stat-card">
+                <div class="num">922</div>
+                <div class="label">本期计提减值</div>
+            </div>
+            <div class="stat-card">
+                <div class="num">321</div>
+                <div class="label">披露折现率</div>
+            </div>
+            <div class="stat-card">
+                <div class="num">289</div>
+                <div class="label">潜在风险公司</div>
+            </div>
+        </div>
+
+        <h3>减值规模：谁的商誉在"蒸发"？</h3>
+
+        <p>2023 年度，减值金额最大的 10 家公司：</p>
+
+        <table class="data-table">
+            <tr><th>代码</th><th style="text-align:right">减值损失 (元)</th><th style="text-align:right">期初商誉</th></tr>
+            <tr><td class="mono">002180</td><td class="num neg">−8,158,600,640</td><td class="num">—</td></tr>
+            <tr><td class="mono">600030</td><td class="num neg">−3,461,971,681</td><td class="num">—</td></tr>
+            <tr><td class="mono">601607</td><td class="num neg">−1,958,833,482</td><td class="num">—</td></tr>
+            <tr><td class="mono">002217</td><td class="num neg">−1,677,425,000</td><td class="num">2,341,270,725</td></tr>
+            <tr><td class="mono">002123</td><td class="num neg">−1,608,444,896</td><td class="num">—</td></tr>
+            <tr><td class="mono">300383</td><td class="num neg">−1,351,167,582</td><td class="num">—</td></tr>
+            <tr><td class="mono">300268</td><td class="num neg">−1,228,800,305</td><td class="num">1,387,715,801</td></tr>
+            <tr><td class="mono">001872</td><td class="num neg">−970,663,044</td><td class="num">970,663,044</td></tr>
+            <tr><td class="mono">300459</td><td class="num neg">−968,264,817</td><td class="num">—</td></tr>
+            <tr><td class="mono">000078</td><td class="num neg">−875,963,663</td><td class="num">—</td></tr>
+        </table>
+
+        <p class="aside">002180（纳思达）一家的减值就超过 81 亿元，这与其 2017 年 246 亿元收购利盟国际后持续面临的整合压力有关。Top 10 中多家公司的期初商誉未被成功提取（显示"—"），这是正则匹配覆盖率的局限。</p>
+
+        <h3>折现率：估值假设是否合理？</h3>
+
+        <p>商誉减值测试的核心是 DCF 估值——预测未来现金流，用折现率折回现值。<strong>折现率越低 → 现值越高 → 越不容易触发减值</strong>。因此管理层在选择折现率时有动机"偏乐观"。</p>
+
+        <p>从 321 家披露折现率的公司中提取的分布：</p>
+
+        <div class="bar-chart">
+            <div class="bar-row">
+                <span class="bar-label">&lt;10%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--green)"></div></div>
+                <span class="bar-value">60</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">10-12%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:74%;background:var(--accent)"></div></div>
+                <span class="bar-value">89</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">12-15%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div>
+                <span class="bar-value">120</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">15-18%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--accent)"></div></div>
+                <span class="bar-value">42</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">&gt;18%</span>
+                <div class="bar-track"><div class="bar-fill" style="width:3%;background:var(--red)"></div></div>
+                <span class="bar-value">4</span>
+            </div>
+        </div>
+
+        <p>中位数 <strong>12.1%</strong>，主要集中在 12-15% 区间。低于 10% 的公司值得关注——在当前的利率环境下，过低的折现率可能意味着管理层在用乐观假设回避减值。</p>
+
+        <h3>潜在风险：商誉>1亿但未减值</h3>
+
+        <div class="highlight-blue">
+            <strong>289 家</strong>公司持有超过 1 亿元的商誉，但 2023 年度未计提任何减值。这不一定意味着有问题——如果被收购公司业绩良好，不减值是正确的。但如果未来业绩恶化，这些商誉可能集中释放减值压力。
+        </div>
+    </div>
+</section>
+
+<!-- ===== CH7: REFLECTION ===== -->
+<section>
+    <div class="container prose">
+        <h2>第七章：局限与反思</h2>
+
+        <p><strong>金额提取精度有限。</strong> 正则表达式在高度模板化的文本上表现不错，但 A 股年报的格式多样性超出预期。3,617 家公司中只有 1,518 家成功提取到商誉金额，覆盖率约 42%。减值发生率（922/1,518 ≈ 60.7%）可能因分母偏小而虚高——实际有商誉的公司可能远多于 1,518 家。</p>
+
+        <p><strong>单位未统一。</strong> 不同公司使用元、万元、百万元为单位，当前版本未做自动换算。Top 10 减值表格中的数字单位以各公司原始披露为准——这意味着跨公司比较需要额外处理。</p>
+
+        <p><strong>如果重来，我会：</strong></p>
+
+        <p class="aside">
+            在阶段 3 增加单位检测（从附注标题提取"单位：万元"），自动换算到统一单位。在阶段 4 对高价值命中采用 LLM 辅助提取（用 Claude API 处理正则难以覆盖的非标准格式），作为规则引擎的补充而非替代。以及加入行业维度分析——商誉减值在不同行业的分布应该有很强的聚集效应（传媒、游戏、医疗是重灾区）。
+        </p>
+
+        <p>但这些留给下一个版本了。这个项目让我理解的核心是：<strong>数据工程的难点不在算法，而在对数据本身的理解。</strong>PDF 里的表格不是表格，关键词命中不等于有效信息，分类器的设计取决于你对数据噪声模式的认知。这些认知只能从亲手翻阅几十份年报、逐条 debug 正则中获得——没有捷径。</p>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="project-footer">
+    <div class="container">
+        <div>RPA 课程项目 · 2026 春</div>
+        <div class="tech-stack">
+            <span>Python</span>
+            <span>requests</span>
+            <span>pandas</span>
+            <span>PyMuPDF</span>
+            <span>regex classifier</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

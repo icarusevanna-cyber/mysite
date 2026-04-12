@@ -3,6 +3,70 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
+    <loc>//localhost:1313/zh-cn/projects/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/projects/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/zh-cn/projects/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/showcase/goodwill-pipeline/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/projects/goodwill-pipeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/showcase/goodwill-pipeline/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/zh-cn/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/zh-cn/"
+    />
+  </url>
+  <url>
+    <loc>//localhost:1313/showcase/rental-hunter/</loc>
+    <lastmod>2026-04-12T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="//localhost:1313/projects/rental-hunter/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="//localhost:1313/showcase/rental-hunter/"
+    />
+  </url>
+  <url>
     <loc>//localhost:1313/zh-cn/posts/</loc>
     <lastmod>2026-04-01T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
@@ -32,22 +96,6 @@
       rel="alternate"
       hreflang="zh-CN"
       href="//localhost:1313/zh-cn/posts/my-first-post/"
-    />
-  </url>
-  <url>
-    <loc>//localhost:1313/zh-cn/</loc>
-    <lastmod>2026-04-01T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="//localhost:1313/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="//localhost:1313/zh-cn/"
     />
   </url>
   <url>
